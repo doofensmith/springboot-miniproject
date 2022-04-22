@@ -1,0 +1,124 @@
+name: CI-CD Pipeline Flows
+on:
+  # manual trigger workflow run
+  workflow_dispatch:
+  # trigger workflow on push branch master
+  push:
+    branches:
+      - master
+
+jobs:
+  # 1st Job, run Testing
+  tests:
+    name: Test
+    # run on ubuntu with latest version
+    runs-on: ubuntu-latest
+    # jobs steps
+    steps:
+      # checkout repo under $github_workspace, accesible by workflow
+      - uses: actions/checkout@v3
+      # set up JDK
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      # set up maven cache
+      - name: Cache Maven Package
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      # Run Test
+      - name: Run Tests
+        run:
+          mvn clean verify
+      # Login to Docker
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      # Build unit test coverage docker image
+      - name: Build docker unit test coverage image
+        uses: docker/build-push-action@v2
+        with:
+          file: unit-test-coverage.Dockerfile
+          context: .
+          push: true
+          tags: doofensmith/springboot-miniproject-coverage:latest
+
+  # 2nd job, build project
+  build:
+    needs: tests
+    name: Build
+    runs-on: ubuntu-latest
+    # job steps
+    steps:
+      # checkout repo under $github_workspace, accesible by workflow
+      - uses: actions/checkout@v3
+      # set up JDK
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      # set up maven cache
+      - name: Cache Maven Package
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      # Run Build Package
+      - name: Run Build Package
+        run:
+          mvn clean package -Dmaven.test.skip=true
+      # Login to Docker HUB
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      # Build and Push Image to Docker
+      - name: Build and Push Image to Docker
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: doofensmith/springboot-miniproject:latest
+
+  # 3rd job, deploy to aws
+  deploy_to_aws:
+    needs: build
+    name: Deploy
+    runs-on: ubuntu-latest
+    # job steps
+    steps:
+      # checkout repo under $github_workspace, accesible by workflow
+      - uses: actions/checkout@v3
+      #Copy file env to server
+      - name: Copy env file
+        uses: appleboy/scp-action@master
+        with:
+          username: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: './postgres.env'
+          target: '/home/ec2-user'
+      # Use SSH to Deploy
+      - name: Configure deploy with ssh
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            docker stop springboot-miniproject springboot-miniproject-coverage
+            docker rm springboot-miniproject springboot-miniproject-coverage
+            docker rmi doofensmith/springboot-miniproject:latest doofensmith/springboot-miniproject-coverage:latest
+            docker pull doofensmith/springboot-miniproject:latest
+            docker pull doofensmith/springboot-miniproject-coverage:latest
+            docker run -d --name springboot-miniproject -p 443:8080 -p 80:8080 --env-file postgres.env --network network1 doofensmith/springboot-miniproject:latest
+            docker run -d --name springboot-miniproject-coverage -p 8000:80 doofensmith/springboot-miniproject-coverage:latest
