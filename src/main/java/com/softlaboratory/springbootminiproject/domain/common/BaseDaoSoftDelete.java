@@ -1,4 +1,4 @@
-package com.softlaboratory.springbootminiproject.domain.dao;
+package com.softlaboratory.springbootminiproject.domain.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -23,8 +22,9 @@ public abstract class BaseDaoSoftDelete extends BaseDao{
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    @PrePersist
+    @Override
     void onCreate() {
+        super.onCreate();
         this.isDeleted = Boolean.FALSE;
     }
 

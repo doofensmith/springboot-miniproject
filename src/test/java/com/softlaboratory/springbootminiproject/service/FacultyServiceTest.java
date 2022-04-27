@@ -3,7 +3,7 @@ package com.softlaboratory.springbootminiproject.service;
 import com.softlaboratory.springbootminiproject.domain.dao.FacultyDao;
 import com.softlaboratory.springbootminiproject.domain.dto.FacultyDto;
 import com.softlaboratory.springbootminiproject.repository.FacultyRepository;
-import com.softlaboratory.springbootminiproject.domain.dao.ApiResponse;
+import com.softlaboratory.springbootminiproject.domain.common.ApiResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
