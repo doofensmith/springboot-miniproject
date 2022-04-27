@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -20,6 +21,11 @@ public abstract class BaseDaoSoftDelete extends BaseDao{
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted = Boolean.FALSE;
+    private Boolean isDeleted;
+
+    @PrePersist
+    void onCreate() {
+        this.isDeleted = Boolean.FALSE;
+    }
 
 }
