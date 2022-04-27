@@ -1,4 +1,4 @@
-package com.softlaboratory.springbootminiproject.util;
+package com.softlaboratory.springbootminiproject.domain.dao;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
