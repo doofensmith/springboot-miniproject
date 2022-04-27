@@ -1,4 +1,4 @@
-package com.softlaboratory.springbootminiproject.domain.dao;
+package com.softlaboratory.springbootminiproject.domain.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +20,12 @@ public abstract class BaseDaoSoftDelete extends BaseDao{
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted = Boolean.FALSE;
+    private Boolean isDeleted;
+
+    @Override
+    void onCreate() {
+        super.onCreate();
+        this.isDeleted = Boolean.FALSE;
+    }
 
 }
