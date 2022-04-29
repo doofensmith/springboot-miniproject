@@ -158,7 +158,7 @@ class MajorServiceTest {
 
         //test service
         ResponseEntity<Object> responseEntity = majorService.addMajor(
-                majorDto.builder()
+                MajorDto.builder()
                         .id(1L)
                         .major("Test")
                         .build()
