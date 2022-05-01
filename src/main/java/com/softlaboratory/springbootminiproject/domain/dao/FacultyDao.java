@@ -9,6 +9,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +20,9 @@ import javax.persistence.*;
 @Table(name = "m_faculty")
 @SQLDelete(sql = "UPDATE m_faculty SET is_deleted = TRUE, deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "is_deleted = false")
-public class FacultyDao extends BaseDaoSoftDelete {
+public class FacultyDao extends BaseDaoSoftDelete implements Serializable {
+
+    private static final long serialVersionUID = 3784711139118287675L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +34,8 @@ public class FacultyDao extends BaseDaoSoftDelete {
     @Column(name = "faculty", nullable = false)
     private String faculty;
 
+    //cascade error
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.EAGER)
+    private List<LecturerDao> lecturerDaoList;
 
 }

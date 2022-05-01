@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +19,9 @@ import javax.persistence.*;
 @Table(name = "m_major")
 @SQLDelete(sql = "update m_major set is_deleted = true, deleted_at = current_timestamp where id = ?")
 @Where(clause = "is_deleted = false")
-public class MajorDao extends BaseDaoSoftDelete {
+public class MajorDao extends BaseDaoSoftDelete implements Serializable {
+
+    private static final long serialVersionUID = -3861023051483658L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

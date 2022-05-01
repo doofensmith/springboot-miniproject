@@ -16,25 +16,25 @@ import java.io.Serializable;
 @Data
 @SuperBuilder
 @Entity
-@Table(name = "m_course")
-@SQLDelete(sql = "update m_course set is_deleted = true, deleted_at = current_timestamp where id = ?")
+@Table(name = "m_lecturer")
+@SQLDelete(sql = "update m_lecturer set is_deleted = true, deleted_at = current_timestamp where id = ?")
 @Where(clause = "is_deleted = false")
-public class CourseDao extends BaseDaoSoftDelete implements Serializable {
+public class LecturerDao extends BaseDaoSoftDelete implements Serializable {
 
-    private static final long serialVersionUID = 2279846687857556526L;
+    private static final long serialVersionUID = -8687055753044582425L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code", nullable = false)
-    private String code;
+    @Column(name = "nidn")
+    private String nidn;
 
-    @Column(name = "course", nullable = false)
-    private String course;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "credit", nullable = false)
-    private int credit;
-
+    @ManyToOne
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private FacultyDao faculty;
 
 }
