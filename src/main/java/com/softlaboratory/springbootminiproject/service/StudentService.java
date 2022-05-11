@@ -1,7 +1,11 @@
 package com.softlaboratory.springbootminiproject.service;
 
 import com.softlaboratory.springbootminiproject.constant.AppConstant;
+import com.softlaboratory.springbootminiproject.domain.dao.FacultyDao;
+import com.softlaboratory.springbootminiproject.domain.dao.MajorDao;
 import com.softlaboratory.springbootminiproject.domain.dao.StudentDao;
+import com.softlaboratory.springbootminiproject.domain.dto.FacultyDto;
+import com.softlaboratory.springbootminiproject.domain.dto.MajorDto;
 import com.softlaboratory.springbootminiproject.domain.dto.StudentDto;
 import com.softlaboratory.springbootminiproject.repository.StudentRepository;
 import com.softlaboratory.springbootminiproject.util.ResponseUtil;
@@ -30,6 +34,22 @@ public class StudentService {
                                 .id(studentDao.getId())
                                 .nim(studentDao.getNim())
                                 .name(studentDao.getName())
+                                .totalCredit(studentDao.getTotalCredit())
+                                .maxCredit(studentDao.getMaxCredit())
+                                .faculty(
+                                        FacultyDto.builder()
+                                                .id(studentDao.getFaculty().getId())
+                                                .code(studentDao.getFaculty().getCode())
+                                                .faculty(studentDao.getFaculty().getFaculty())
+                                                .build()
+                                )
+                                .major(
+                                        MajorDto.builder()
+                                                .id(studentDao.getMajor().getId())
+                                                .code(studentDao.getMajor().getCode())
+                                                .major(studentDao.getMajor().getMajor())
+                                                .build()
+                                )
                                 .build()
                 );
             }
@@ -47,6 +67,22 @@ public class StudentService {
                         .id(studentDao.get().getId())
                         .nim(studentDao.get().getNim())
                         .name(studentDao.get().getName())
+                        .totalCredit(studentDao.get().getTotalCredit())
+                        .maxCredit(studentDao.get().getMaxCredit())
+                        .faculty(
+                                FacultyDto.builder()
+                                        .id(studentDao.get().getFaculty().getId())
+                                        .code(studentDao.get().getFaculty().getCode())
+                                        .faculty(studentDao.get().getFaculty().getFaculty())
+                                        .build()
+                        )
+                        .major(
+                                MajorDto.builder()
+                                        .id(studentDao.get().getMajor().getId())
+                                        .code(studentDao.get().getMajor().getCode())
+                                        .major(studentDao.get().getMajor().getMajor())
+                                        .build()
+                        )
                         .build();
                 return ResponseUtil.build(HttpStatus.OK, AppConstant.KEY_SUCCESS, studentDto);
             }else {
@@ -62,6 +98,16 @@ public class StudentService {
             StudentDao studentDao = StudentDao.builder()
                     .nim(request.getNim())
                     .name(request.getName())
+                    .totalCredit(request.getTotalCredit())
+                    .maxCredit(request.getMaxCredit())
+                    .faculty(FacultyDao.builder()
+                            .id(request.getFaculty().getId())
+                            .build()
+                    )
+                    .major(MajorDao.builder()
+                            .id(request.getMajor().getId())
+                            .build()
+                    )
                     .build();
             studentRepository.save(studentDao);
 
@@ -69,6 +115,16 @@ public class StudentService {
                     .id(studentDao.getId())
                     .nim(studentDao.getNim())
                     .name(studentDao.getName())
+                    .totalCredit(studentDao.getTotalCredit())
+                    .maxCredit(studentDao.getMaxCredit())
+                    .faculty(FacultyDto.builder()
+                            .faculty(studentDao.getFaculty().getFaculty())
+                            .build()
+                    )
+                    .major(MajorDto.builder()
+                            .major(studentDao.getMajor().getMajor())
+                            .build()
+                    )
                     .build();
 
             return ResponseUtil.build(HttpStatus.OK, AppConstant.KEY_CREATED, studentDto);
@@ -85,12 +141,22 @@ public class StudentService {
                 StudentDao studentDaoNew = studentDaoOld.get();
                 studentDaoNew.setNim(request.getNim());
                 studentDaoNew.setName(request.getName());
+                studentDaoNew.setTotalCredit(request.getTotalCredit());
+                studentDaoNew.setMaxCredit(request.getMaxCredit());
+                studentDaoNew.setFaculty(FacultyDao.builder()
+                        .id(request.getFaculty().getId())
+                        .build());
+                studentDaoNew.setMajor(MajorDao.builder()
+                        .id(request.getMajor().getId())
+                        .build());
                 studentRepository.save(studentDaoNew);
 
                 StudentDto studentDto = StudentDto.builder()
                         .id(studentDaoNew.getId())
                         .nim(studentDaoNew.getNim())
                         .name(studentDaoNew.getName())
+                        .totalCredit(studentDaoNew.getTotalCredit())
+                        .maxCredit(studentDaoNew.getMaxCredit())
                         .build();
 
                 return ResponseUtil.build(HttpStatus.OK, AppConstant.KEY_UPDATED, studentDto);

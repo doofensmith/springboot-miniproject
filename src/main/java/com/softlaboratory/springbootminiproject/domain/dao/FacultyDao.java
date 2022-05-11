@@ -38,4 +38,7 @@ public class FacultyDao extends BaseDaoSoftDelete implements Serializable {
     @OneToMany(mappedBy = "faculty", fetch = FetchType.EAGER)
     private List<LecturerDao> lecturerDaoList;
 
+    @OneToMany(mappedBy = "faculty")
+    private List<StudentDao> studentDaoList;
+
 }

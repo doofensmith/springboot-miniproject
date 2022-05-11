@@ -1,6 +1,5 @@
 package com.softlaboratory.springbootminiproject.domain.dto;
 
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -9,20 +8,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class StudentDto implements Serializable {
+public class ScheduleDto implements Serializable {
+    private static final long serialVersionUID = -249433941156072978L;
 
     private Long id;
-    private String nim;
-    private String name;
-    private int totalCredit;
-    private int maxCredit;
-    private FacultyDto faculty;
-    private MajorDto major;
+    private String day;
+    private Date startTime;
+    private Date endTime;
+    private ClassDto classDto;
 
 }
