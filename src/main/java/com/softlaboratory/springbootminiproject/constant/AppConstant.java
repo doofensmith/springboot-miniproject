@@ -13,4 +13,8 @@ public class AppConstant {
     public static final String KEY_DELETED = "Data deleted";
     public static final String KEY_ERROR = "Error happened";
 
+    public static final String JWT_HEADER = "Authorization";
+
+    public static final String JWT_TOKEN_PREFIX = "Bearer";
+
 }
