@@ -6,6 +6,7 @@ import com.softlaboratory.springbootminiproject.domain.dao.CourseDao;
 import com.softlaboratory.springbootminiproject.domain.dao.LecturerDao;
 import com.softlaboratory.springbootminiproject.domain.dto.ClassDto;
 import com.softlaboratory.springbootminiproject.domain.dto.CourseDto;
+import com.softlaboratory.springbootminiproject.domain.dto.FacultyDto;
 import com.softlaboratory.springbootminiproject.domain.dto.LecturerDto;
 import com.softlaboratory.springbootminiproject.repository.ClassRepository;
 import com.softlaboratory.springbootminiproject.util.ResponseUtil;
@@ -38,6 +39,11 @@ public class ClassService {
                                         .id(classDao.getLecturer().getId())
                                         .nidn(classDao.getLecturer().getNidn())
                                         .name(classDao.getLecturer().getName())
+                                        .faculty(FacultyDto.builder()
+                                                .id(classDao.getLecturer().getFaculty().getId())
+                                                .code(classDao.getLecturer().getFaculty().getCode())
+                                                .faculty(classDao.getLecturer().getFaculty().getFaculty())
+                                                .build())
                                         .build())
                                 .course(CourseDto.builder()
                                         .id(classDao.getCourse().getId())
@@ -69,6 +75,7 @@ public class ClassService {
                                 .build())
                         .course(CourseDto.builder()
                                 .id(classDao.get().getCourse().getId())
+                                .code(classDao.get().getCourse().getCode())
                                 .credit(classDao.get().getCourse().getCredit())
                                 .course(classDao.get().getCourse().getCourse())
                                 .build())
