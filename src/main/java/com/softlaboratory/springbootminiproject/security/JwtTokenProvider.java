@@ -20,20 +20,20 @@ public class JwtTokenProvider {
     private Long expiration = 1000L * 60 * 60; // exp = ms * s * h  --- 1 hour
 
     public String generateToken(Authentication authentication) {
-        final UserDao userDao = (UserDao)authentication.getPrincipal();
+        final UserDao userDao = (UserDao) authentication.getPrincipal();
 
         Date now = new Date(System.currentTimeMillis());
-        Date expire = new Date(now.getTime() + expiration);
+        Date expiredDate = new Date(now.getTime() + expiration);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", userDao.getUsername());
 
         return Jwts.builder()
                 .setId(userDao.getId().toString())
-                .setSubject("Subject")
+                .setSubject(userDao.getUsername())
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(expire)
+                .setExpiration(expiredDate)
                 .signWith(key)
                 .compact();
 

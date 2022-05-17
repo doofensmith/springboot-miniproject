@@ -38,11 +38,13 @@ public class AuthService {
                     .username(request.getUsername())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role("STUDENT")
+                    .active(true)
                     .build();
             userRepository.save(userDao);
 
             UserDto userDto = UserDto.builder()
                     .username(userDao.getUsername())
+                    .password(userDao.getPassword())
                     .build();
 
             return ResponseUtil.build(HttpStatus.OK, AppConstant.KEY_SUCCESS, userDto);
@@ -69,7 +71,7 @@ public class AuthService {
 
             return ResponseUtil.build(HttpStatus.OK, AppConstant.KEY_SUCCESS, tokenDto);
         }catch (Exception e) {
-            return ResponseUtil.build(HttpStatus.INTERNAL_SERVER_ERROR, AppConstant.KEY_ERROR, null);
+            return ResponseUtil.build(HttpStatus.INTERNAL_SERVER_ERROR, AppConstant.KEY_ERROR, e.getMessage());
         }
 
     }

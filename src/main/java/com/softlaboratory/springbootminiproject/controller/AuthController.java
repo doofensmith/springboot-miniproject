@@ -1,8 +1,11 @@
 package com.softlaboratory.springbootminiproject.controller;
 
+import com.softlaboratory.springbootminiproject.constant.AppConstant;
 import com.softlaboratory.springbootminiproject.domain.dto.UserDto;
 import com.softlaboratory.springbootminiproject.service.AuthService;
+import com.softlaboratory.springbootminiproject.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +35,7 @@ public class AuthController {
         try {
             return authService.login(request);
         }catch (Exception e) {
-            throw e;
+            return ResponseUtil.build(HttpStatus.INTERNAL_SERVER_ERROR, AppConstant.KEY_ERROR, e.getMessage());
         }
     }
 

@@ -37,7 +37,7 @@ public class UserDao extends BaseDaoSoftDelete implements UserDetails {
     private String role;
 
     @Column(columnDefinition = "boolean default true")
-    private Boolean active = true;
+    private boolean active = true;
 
 
     @Override
@@ -47,21 +47,21 @@ public class UserDao extends BaseDaoSoftDelete implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.active;
+        return active;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.active;
+        return active;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.active;
+        return active;
     }
 
     @Override
     public boolean isEnabled() {
-        return this.active;
+        return active;
     }
 }
