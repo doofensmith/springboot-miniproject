@@ -1,4 +1,4 @@
-package com.softlaboratory.springbootminiproject.domain.dao;
+package com.softlaboratory.springbootminiproject.domain.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

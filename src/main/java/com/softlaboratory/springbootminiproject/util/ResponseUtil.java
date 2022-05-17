@@ -1,5 +1,6 @@
 package com.softlaboratory.springbootminiproject.util;
 
+import com.softlaboratory.springbootminiproject.domain.common.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

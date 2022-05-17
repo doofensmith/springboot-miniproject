@@ -11,11 +11,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @Builder
-public class TestDto implements Serializable {
+public class LecturerDto implements Serializable {
 
-    private static final long serialVersionUID = -4399513852352066635L;
+    private static final long serialVersionUID = -8661040073664090918L;
 
     private Long id;
-    private String data;
+    private String nidn;
+    private String name;
+    private FacultyDto faculty;
 
 }
