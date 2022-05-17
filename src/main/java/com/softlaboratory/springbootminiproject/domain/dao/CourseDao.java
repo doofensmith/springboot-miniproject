@@ -37,8 +37,8 @@ public class CourseDao extends BaseDaoSoftDelete implements Serializable {
     @Column(name = "credit", nullable = false)
     private int credit;
 
-    @OneToOne(mappedBy = "course")
-    private ClassDao classDaos;
+    @OneToMany(mappedBy = "course")
+    private List<ClassDao> classDaos;
 
 
 }

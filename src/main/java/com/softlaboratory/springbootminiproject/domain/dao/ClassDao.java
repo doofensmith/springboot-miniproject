@@ -34,7 +34,7 @@ public class ClassDao extends BaseDao implements Serializable {
     @JoinColumn(name = "lecturer_id", nullable = false)
     private LecturerDao lecturer;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private CourseDao course;
 

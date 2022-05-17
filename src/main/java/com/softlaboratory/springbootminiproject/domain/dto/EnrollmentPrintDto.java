@@ -8,18 +8,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class EnrollmentDto implements Serializable {
+public class EnrollmentPrintDto implements Serializable {
 
-    private static final long serialVersionUID = -3293787978463410967L;
+    private static final long serialVersionUID = 5075506269927201526L;
 
-    private Long id;
-    private StudentDto studentData;
-    private ClassDto classData;
+    StudentDto student;
+    List<ClassDto> classList;
 
 }
