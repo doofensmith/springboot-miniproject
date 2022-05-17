@@ -18,7 +18,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDao userDao = userRepository.getDistinctTopByUsername(username);
         if (userDao == null) {
-            throw new UsernameNotFoundException("Username not found.");
+            return null;
         }else {
             return userDao;
         }

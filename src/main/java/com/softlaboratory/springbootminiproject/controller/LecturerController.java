@@ -2,10 +2,12 @@ package com.softlaboratory.springbootminiproject.controller;
 
 import com.softlaboratory.springbootminiproject.domain.dto.LecturerDto;
 import com.softlaboratory.springbootminiproject.service.LecturerService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Log4j2
 @RestController
 @RequestMapping(value = "/api/lecturer")
 public class LecturerController {
@@ -18,6 +20,7 @@ public class LecturerController {
         try {
             return lecturerService.getAllLecturer();
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -27,6 +30,7 @@ public class LecturerController {
         try {
             return lecturerService.getLecturerById(id);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -36,6 +40,7 @@ public class LecturerController {
         try {
             return lecturerService.addNewLecturer(request);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -45,6 +50,7 @@ public class LecturerController {
         try {
             return lecturerService.updateLecturer(id, request);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -54,6 +60,7 @@ public class LecturerController {
         try {
             return lecturerService.deleteLecturer(id);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }

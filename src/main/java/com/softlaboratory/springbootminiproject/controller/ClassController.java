@@ -2,10 +2,12 @@ package com.softlaboratory.springbootminiproject.controller;
 
 import com.softlaboratory.springbootminiproject.domain.dto.ClassDto;
 import com.softlaboratory.springbootminiproject.service.ClassService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Log4j2
 @RestController
 @RequestMapping(value = "/api/class")
 public class ClassController {
@@ -18,6 +20,7 @@ public class ClassController {
         try {
             return classService.getAllClass();
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -27,6 +30,7 @@ public class ClassController {
         try {
             return classService.getClassById(id);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -36,6 +40,7 @@ public class ClassController {
         try {
             return classService.createNewClass(request);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -45,6 +50,7 @@ public class ClassController {
         try {
             return classService.updateClass(id, request);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -54,6 +60,7 @@ public class ClassController {
         try {
             return classService.deleteClass(id);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
