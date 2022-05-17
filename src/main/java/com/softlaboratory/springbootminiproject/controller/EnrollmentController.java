@@ -2,10 +2,12 @@ package com.softlaboratory.springbootminiproject.controller;
 
 import com.softlaboratory.springbootminiproject.domain.dto.EnrollmentDto;
 import com.softlaboratory.springbootminiproject.service.EnrollmentService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Log4j2
 @RestController
 @RequestMapping(value = "/api/enrollment")
 public class EnrollmentController {
@@ -18,6 +20,7 @@ public class EnrollmentController {
         try {
             return enrollmentService.enroll(request);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -27,6 +30,7 @@ public class EnrollmentController {
         try {
             return enrollmentService.unenroll(id);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
@@ -36,6 +40,7 @@ public class EnrollmentController {
         try {
             return enrollmentService.print(nim);
         }catch (Exception e) {
+            log.error(e.getMessage());
             throw e;
         }
     }
