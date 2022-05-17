@@ -1,7 +1,11 @@
 package com.softlaboratory.springbootminiproject.service;
 
 import com.softlaboratory.springbootminiproject.domain.common.ApiResponse;
+import com.softlaboratory.springbootminiproject.domain.dao.FacultyDao;
+import com.softlaboratory.springbootminiproject.domain.dao.MajorDao;
 import com.softlaboratory.springbootminiproject.domain.dao.StudentDao;
+import com.softlaboratory.springbootminiproject.domain.dto.FacultyDto;
+import com.softlaboratory.springbootminiproject.domain.dto.MajorDto;
 import com.softlaboratory.springbootminiproject.domain.dto.StudentDto;
 import com.softlaboratory.springbootminiproject.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
@@ -38,9 +42,19 @@ class StudentServiceTest {
     void getAllStudentNotNull_Success_Test() {
 
         //mock
+        FacultyDao facultyDao = FacultyDao.builder()
+                .id(1L)
+                .build();
+
+        MajorDao majorDao = MajorDao.builder()
+                .id(1L)
+                .build();
+
         StudentDao studentDao = StudentDao.builder()
                 .id(1L)
                 .name("Test")
+                .faculty(facultyDao)
+                .major(majorDao)
                 .build();
 
         when(studentRepository.findAll()).thenReturn(List.of(studentDao));
@@ -98,8 +112,18 @@ class StudentServiceTest {
     @Test
     void getStudentByIdNotNull_Success_Test() {
         //mocking
+        FacultyDao facultyDao = FacultyDao.builder()
+                .id(1L)
+                .build();
+
+        MajorDao majorDao = MajorDao.builder()
+                .id(1L)
+                .build();
+
         StudentDao studentDao = StudentDao.builder()
                 .id(1L)
+                .faculty(facultyDao)
+                .major(majorDao)
                 .build();
 
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(studentDao));
@@ -142,14 +166,30 @@ class StudentServiceTest {
     @Test
     void addNewStudentWithPayload_Success_Test() {
         //mocking
+        FacultyDao facultyDao = FacultyDao.builder()
+                .id(1L)
+                .build();
+
+        MajorDao majorDao = MajorDao.builder()
+                .id(1L)
+                .build();
+
         StudentDao studentDao = StudentDao.builder()
                 .id(1L)
+                .faculty(facultyDao)
+                .major(majorDao)
                 .build();
 
         //payload
         StudentDto studentDto = StudentDto.builder()
                 .id(1L)
                 .name("Test")
+                .faculty(FacultyDto.builder()
+                        .id(1L)
+                        .build())
+                .major(MajorDto.builder()
+                        .id(1L)
+                        .build())
                 .build();
 
         when(mapper.map(any(),eq(StudentDao.class))).thenReturn(studentDao);
@@ -161,6 +201,12 @@ class StudentServiceTest {
                 StudentDto.builder()
                         .id(1L)
                         .name("Test")
+                        .faculty(FacultyDto.builder()
+                                .id(1L)
+                                .build())
+                        .major(MajorDto.builder()
+                                .id(1L)
+                                .build())
                         .build()
         );
         ApiResponse apiResponse = (ApiResponse) responseEntity.getBody();
@@ -175,7 +221,7 @@ class StudentServiceTest {
     @Test
     void addNewStudentException_Error_Test() {
         //mocking
-        when(studentService.addNewStudent(mapper.map(any(),eq(StudentDto.class)))).thenThrow();
+        when(studentService.addNewStudent(mapper.map(any(),eq(StudentDto.class)))).thenThrow(NullPointerException.class);
 
         //test service
         ResponseEntity<Object> responseEntity = studentService.addNewStudent(StudentDto.builder().build());
@@ -188,14 +234,29 @@ class StudentServiceTest {
     @Test
     void updateStudent_Success_Test() {
         //mocking
+        FacultyDao facultyDao = FacultyDao.builder()
+                .id(1L)
+                .build();
+
+        MajorDao majorDao = MajorDao.builder()
+                .id(1L)
+                .build();
+
         StudentDao studentDao = StudentDao.builder()
                 .id(1L)
-                .name("Test")
+                .faculty(facultyDao)
+                .major(majorDao)
                 .build();
 
         StudentDto studentDto = StudentDto.builder()
                 .id(1L)
-                .name("Update Test")
+                .name("Test")
+                .faculty(FacultyDto.builder()
+                        .id(1L)
+                        .build())
+                .major(MajorDto.builder()
+                        .id(1L)
+                        .build())
                 .build();
 
         when(studentRepository.findById(anyLong())).thenReturn(Optional.of(studentDao));
@@ -206,7 +267,13 @@ class StudentServiceTest {
         ResponseEntity<Object> responseEntity = studentService.updateStudent(
                 anyLong(),
                 StudentDto.builder()
-                        .name("Update Test")
+                        .name("Test")
+                        .faculty(FacultyDto.builder()
+                                .id(1L)
+                                .build())
+                        .major(MajorDto.builder()
+                                .id(1L)
+                                .build())
                         .build()
         );
 
