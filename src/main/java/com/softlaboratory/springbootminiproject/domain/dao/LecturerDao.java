@@ -37,4 +37,7 @@ public class LecturerDao extends BaseDaoSoftDelete implements Serializable {
     @JoinColumn(name = "faculty_id", nullable = false)
     private FacultyDao faculty;
 
+    @OneToOne(mappedBy = "lecturer")
+    private ClassDao classDao;
+
 }

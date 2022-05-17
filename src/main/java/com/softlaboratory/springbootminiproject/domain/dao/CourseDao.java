@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,6 +36,9 @@ public class CourseDao extends BaseDaoSoftDelete implements Serializable {
 
     @Column(name = "credit", nullable = false)
     private int credit;
+
+    @OneToMany(mappedBy = "course")
+    private List<ClassDao> classDaos;
 
 
 }

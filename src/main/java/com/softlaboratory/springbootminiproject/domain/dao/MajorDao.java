@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,5 +33,8 @@ public class MajorDao extends BaseDaoSoftDelete implements Serializable {
 
     @Column(name = "major", nullable = false)
     private String major;
+
+    @OneToMany(mappedBy = "major")
+    private List<StudentDao> studentDaoList;
 
 }
